@@ -1,5 +1,5 @@
 discord_bot:
-  token: ""
+  token: "USE_ENV"
 
 moderation:
   enabled: true
@@ -184,3 +184,4 @@ notifications:
     # Leave blank to disable pings (recommended until you set the correct ID)
 
     best_mention: "chungosaurus_"
+
