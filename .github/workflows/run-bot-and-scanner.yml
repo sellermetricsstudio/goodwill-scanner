@@ -13,10 +13,10 @@ jobs:
         working-directory: goodwill_scanner
 
     steps:
-      - name: Check out repo
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -24,32 +24,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Start bot in background
+      - name: Start bot
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        run: |
-          nohup python bot.py > bot.log 2>&1 &
-          echo "Bot started"
+        run: nohup python bot.py > bot.log 2>&1 &
 
-      - name: Start scanner in background
+      - name: Start scanner
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        run: |
-          nohup python scanner.py > scanner.log 2>&1 &
-          echo "Scanner started"
+        run: nohup python scanner.py > scanner.log 2>&1 &
 
-      - name: Keep workflow alive for 6 hours
+      - name: Keep workflow alive
         run: sleep 21600
-
-      - name: Show bot log
-        if: always()
-        run: cat bot.log || true
-
-      - name: Show scanner log
-        if: always()
-        run: cat scanner.log || true
-        run: python scanner.py
-
-      - name: Show bot log
-        if: always()
-        run: cat bot.log || true
