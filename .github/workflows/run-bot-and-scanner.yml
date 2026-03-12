@@ -30,11 +30,24 @@ jobs:
         run: |
           nohup python bot.py > bot.log 2>&1 &
           echo "Bot started"
-          sleep 10
 
-      - name: Run scanner
+      - name: Start scanner in background
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: |
+          nohup python scanner.py > scanner.log 2>&1 &
+          echo "Scanner started"
+
+      - name: Keep workflow alive for 6 hours
+        run: sleep 21600
+
+      - name: Show bot log
+        if: always()
+        run: cat bot.log || true
+
+      - name: Show scanner log
+        if: always()
+        run: cat scanner.log || true
         run: python scanner.py
 
       - name: Show bot log
