@@ -27,12 +27,28 @@ jobs:
       - name: Start bot
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        run: nohup python bot.py > bot.log 2>&1 &
+        run: |
+          nohup python bot.py > bot.log 2>&1 &
+          echo $! > bot.pid
+          echo "Started bot with PID $(cat bot.pid)"
+          sleep 15
+          echo "===== BOT LOG AFTER 15 SECONDS ====="
+          cat bot.log || true
+          echo "===== BOT PROCESS CHECK ====="
+          ps -p $(cat bot.pid) -f || true
 
       - name: Start scanner
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        run: nohup python scanner.py > scanner.log 2>&1 &
+        run: |
+          nohup python scanner.py > scanner.log 2>&1 &
+          echo $! > scanner.pid
+          echo "Started scanner with PID $(cat scanner.pid)"
+          sleep 10
+          echo "===== SCANNER LOG AFTER 10 SECONDS ====="
+          cat scanner.log || true
+          echo "===== SCANNER PROCESS CHECK ====="
+          ps -p $(cat scanner.pid) -f || true
 
       - name: Keep workflow alive
         run: sleep 21600
