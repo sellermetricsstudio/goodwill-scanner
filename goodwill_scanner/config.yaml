@@ -1,0 +1,185 @@
+discord_bot:
+  token: "MTQ3Nzg0MTAwMTYxMDQ3NzcwMg.GrYokN.hUCPbuWyAAiyWSNDsrUdbEw1eB_i4nh-n8p7iM"
+
+moderation:
+  enabled: true
+
+  # Channels where reactions are allowed
+  browse_channel_id: 1477779947903778878
+  best_channel_id: 1477727866803195994
+  saved_channel_id: 1477839218284953610
+
+  save_emoji: "✅"
+  dismiss_emoji: "❌"
+scan:
+  interval_minutes: 10
+
+  # ALERT WINDOW (instant notifications only)
+  ending_soon_minutes: 120         # 2 hours
+
+  # DIGEST/BROWSE WINDOW (collect items that are "coming up")
+  digest_window_minutes: 360       # 6 hours
+
+  # Filters
+  max_bids: 10
+  max_shipping_usd: 45
+
+  # Alert volume control (BEST channel uses this cap)
+  max_alerts_per_scan: 5
+  max_alerts_per_hour: 999999      # effectively OFF while testing
+
+  # Enrich top listings via detail endpoint (for better time/shipping)
+  enrich_top_n: 20
+
+  # Helps reduce random SGW API errors
+  request_delay_seconds: 0.6
+  use_buyer_prefs: false
+
+  # Scoring threshold (items below this are ignored entirely)
+  tiers:
+    tier_b_min_score: 40
+    digest_every_minutes: 60
+
+  # NEW: BEST vs BROWSE behavior knobs
+  best_min_score: 70               # BEST channel only (raise = fewer, lower = more)
+  browse_max_posts_per_scan: 25    # how many silent browse hits to post each scan
+
+  digest_max_items: 20
+  debug_time: false
+
+
+feeds:
+  # ----------------------------
+  # CORE (high-signal, consistent)
+  # ----------------------------
+  - name: "Video game lots"
+    query: "video game lot"
+  - name: "Console untested"
+    query: "console untested"
+  - name: "Controller lots"
+    query: "controller lot"
+  - name: "DVD lots"
+    query: "dvd lot"
+  - name: "Blu-ray lots"
+    query: "blu ray lot"
+  - name: "Anime lots"
+    query: "anime lot"
+  - name: "Complete series / box sets"
+    query: "complete series box set"
+  - name: "Manga lots"
+    query: "manga lot"
+  - name: "Collectible lots"
+    query: "collectible lot"
+
+  # ----------------------------
+  # TREASURE HUNTER (broad nets that hide consoles/games)
+  # ----------------------------
+  - name: "Electronics lot"
+    query: "electronics lot"
+  - name: "Toy lot"
+    query: "toy lot"
+  - name: "Computer lot"
+    query: "computer lot"
+  - name: "Home entertainment"
+    query: "home entertainment"
+  - name: "Audio video"
+    query: "audio video"
+
+  # ----------------------------
+  # PLATFORM KEYWORDS (catch bad titles without 'console')
+  # ----------------------------
+  - name: "Nintendo keyword"
+    query: "nintendo"
+  - name: "PlayStation keyword"
+    query: "playstation"
+  - name: "Xbox keyword"
+    query: "xbox"
+  - name: "Retro game keyword"
+    query: "retro game"
+  
+  - name: "Game Boy keyword"
+    query: "game boy"
+  - name: "Nintendo DS keyword"
+    query: "nintendo ds"
+  - name: "Nintendo 3DS keyword"
+    query: "nintendo 3ds"
+  - name: "PS2 keyword"
+    query: "ps2"
+  - name: "PS3 keyword"
+    query: "ps3"
+  - name: "Wii keyword"
+    query: "wii"
+  - name: "GameCube keyword"
+    query: "gamecube"
+  - name: "Switch keyword"
+    query: "switch console"
+  - name: "PSP keyword"
+    query: "psp"
+  - name: "PS Vita keyword"
+    query: "ps vita"
+
+  # ----------------------------
+  # HIGH-SIGNAL BAIT (surfaces miscategorized gems)
+  # ----------------------------
+  - name: "Sealed keyword"
+    query: "sealed"
+  - name: "CIB keyword"
+    query: "cib"
+  - name: "Complete in box"
+    query: "complete in box"
+  - name: "NEW"
+    query: "new"
+
+scoring:
+  keyword_boosts:
+    # Games
+    "pokemon": 20
+    "game boy": 18
+    "handheld": 10
+    "nintendo": 10
+    "ps2": 8
+    "ps3": 7
+    "xbox": 7
+    "switch": 12
+    "sealed": 12
+    "cib": 10
+    "complete": 8
+    "lot": 6
+    "bundle": 6
+    "console": 6
+    "controller": 6
+
+    # Movies / books
+    "blu-ray": 8
+    "4k": 10
+    "steelbook": 12
+    "criterion": 12
+    "complete series": 14
+    "box set": 12
+    "manga": 10
+    "graphic novel": 8
+
+  keyword_penalties:
+    "empty": 25
+    "case only": 20
+    "manual only": 20
+    "read": 8
+    "damaged": 10
+
+notifications:
+  mode: "discord"   # "print" | "pushover" | "discord"
+
+  pushover:
+    user_key: "PUT_YOUR_PUSHOVER_USER_KEY_HERE"
+    api_token: "PUT_YOUR_PUSHOVER_APP_TOKEN_HERE"
+
+  discord:
+    # Channel A: BEST alerts (you want to be notified)
+    best_webhook_url: "https://discord.com/api/webhooks/1477779757532713164/YskTBjaJmyGmpVD9K37oVbLbe_Z-LyaDfJIb_TVylpvta8Vfn_162DwzZrRun2Rsodmt"
+
+    # Channel B: Browse feed (silent, lots of hits, no push notifications)
+    browse_webhook_url: "https://discord.com/api/webhooks/1477780063595532514/RDg_K-fC42Vz0n9i5AORCiEqKMB2QGon9Vbt8M4tTD3uf89cmr9ebyH3ZGA8QK4-b9gb"
+
+    # Optional: to actually ping, use "<@YOUR_USER_ID>" or a role "<@&ROLE_ID>"
+    # Leave blank to disable pings (recommended until you set the correct ID)
+    best_mention: "chungosaurus_"
