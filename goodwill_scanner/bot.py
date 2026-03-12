@@ -183,7 +183,7 @@ def ebay_sold_url(query: str) -> str:
 async def main():
     cfg = load_cfg("config.yaml")
 
-    token = (cfg.get("discord_bot") or {}).get("token", "").strip()
+    token = os.environ["DISCORD_TOKEN"]
     if not token:
         raise RuntimeError("Missing discord_bot.token in config.yaml")
 
@@ -469,3 +469,4 @@ async def main():
 if __name__ == "__main__":
 
     asyncio.run(main())
+
