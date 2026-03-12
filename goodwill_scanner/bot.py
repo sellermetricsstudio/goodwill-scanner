@@ -3,6 +3,7 @@ import sqlite3
 import yaml
 import discord
 import re
+import os
 
 DB_PATH = "data/scanner.sqlite3"
 
@@ -466,4 +467,5 @@ async def main():
 
 
 if __name__ == "__main__":
+
     asyncio.run(main())
