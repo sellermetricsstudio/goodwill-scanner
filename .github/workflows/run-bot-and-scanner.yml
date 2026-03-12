@@ -1,0 +1,42 @@
+name: Run Bot and Scanner
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-bot-and-scanner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    defaults:
+      run:
+        working-directory: goodwill_scanner
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Start bot in background
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: |
+          nohup python bot.py > bot.log 2>&1 &
+          echo "Bot started"
+          sleep 10
+
+      - name: Run scanner
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: python scanner.py
+
+      - name: Show bot log
+        if: always()
+        run: cat bot.log || true
