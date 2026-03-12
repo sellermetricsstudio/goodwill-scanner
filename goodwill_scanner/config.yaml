@@ -1,5 +1,5 @@
 discord_bot:
-  token: "MTQ3Nzg0MTAwMTYxMDQ3NzcwMg.GrYokN.hUCPbuWyAAiyWSNDsrUdbEw1eB_i4nh-n8p7iM"
+  token: ""
 
 moderation:
   enabled: true
@@ -182,4 +182,5 @@ notifications:
 
     # Optional: to actually ping, use "<@YOUR_USER_ID>" or a role "<@&ROLE_ID>"
     # Leave blank to disable pings (recommended until you set the correct ID)
+
     best_mention: "chungosaurus_"
